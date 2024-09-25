@@ -1,0 +1,64 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: app-gateway
+  namespace: default
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+spec:
+  gatewayClassName: nginx
+  listeners:
+  - name: http
+    port: 80
+    protocol: HTTP
+    hostname: "go-ks.654537853.xyz"
+  - name: https
+    hostname: "go-ks.654537853.xyz"
+    port: 443
+    protocol: HTTPS
+    allowedRoutes:
+      namespaces:
+        from: All
+    tls:
+      mode: Terminate
+      certificateRefs:
+      - name: app-go-ks-tls #ks is kubesimplify
+        kind: Secret
+        group: ""
+  - name: argo-http
+    port: 80
+    protocol: HTTP
+    hostname: "argo-ks.654537853.xyz" #ks is kubesimplify
+  - name: argo-https
+    hostname: "argo-ks.654537853.xyz" #ks is kubesimplify
+    port: 443
+    protocol: HTTPS
+    allowedRoutes:
+      namespaces:
+        from: All
+    tls:
+      mode: Terminate
+      certificateRefs:
+      - name: argo-go-ks-tls #ks is kubesimplify
+        kind: Secret
+        group: ""
+
+---
+apiVersion: gateway.networking.k8s.io/v1beta1
+kind: HTTPRoute
+metadata:
+  name: go-app-route
+spec:
+  parentRefs:
+  - name: app-gateway
+    namespace: default
+  hostnames:
+  - "go-ks.654537853.xyz" #ks is kubesimplify
+  rules:
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /
+    backendRefs:
+    - name: go-ks-app-service
+      port: 80

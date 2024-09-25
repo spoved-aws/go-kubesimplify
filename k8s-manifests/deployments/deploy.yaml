@@ -23,15 +23,15 @@ spec:
         - name: DB_USERNAME
           valueFrom:
             secretKeyRef:
-              name: postgresql-credentials
+              name: my-postgresql-credentials
               key: username
         - name: DB_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: postgresql-credentials
+              name: my-postgresql-credentials
               key: password
         - name: DB_HOST
-          value: my-postgresql-rw.default.svc.cluster.local
+          value: my-postgresql-rw.kubesimplify-go.svc.cluster.local
         - name: DB_PORT
           value: "5432"
         - name: DB_NAME

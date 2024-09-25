@@ -1,0 +1,37 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: go-ks-ingress
+  # namespace: kubesimplify-go
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+spec:
+  rules:
+  - host: go-ks.654537853.xyz
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: go-ks-app-lb-service
+            port:
+              number: 80
+  # - host: argo-ks.654537853.xyz
+  #   http:
+  #     paths:
+  #     - path: /
+  #       pathType: Prefix
+  #       backend:
+  #         service:
+  #           name: argo-service
+  #           port:
+  #             number: 80
+  tls:
+  - hosts:
+    - go-ks.654537853.xyz
+    - argo-ks.654537853.xyz
+    secretName: letsencrypt-prod # Same as app-go-ks-tls or argo-go-ks-tls
