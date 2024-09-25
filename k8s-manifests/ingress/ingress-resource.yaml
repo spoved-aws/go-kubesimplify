@@ -33,5 +33,5 @@ spec:
   tls:
   - hosts:
     - go-ks.654537853.xyz
-    - argo-ks.654537853.xyz
+    # - argo-ks.654537853.xyz
     secretName: letsencrypt-prod # Same as app-go-ks-tls or argo-go-ks-tls

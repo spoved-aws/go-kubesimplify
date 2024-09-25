@@ -4,7 +4,7 @@ metadata:
   name: my-postgresql
   namespace: kubesimplify-go
 spec:
-  instances: 2
+  instances: 1
   storage:
     size: 1Gi
   bootstrap:
