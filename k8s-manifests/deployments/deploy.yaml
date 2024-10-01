@@ -16,52 +16,45 @@ spec:
         app: my-app
     spec:
       containers:
-      - name: my-app
-        image: docker.io/kanukhosla10/go-kubesimplify:amd64
-        imagePullPolicy: Always
-        env:
-        - name: DB_USERNAME
-          valueFrom:
-            secretKeyRef:
-              name: postgresql-credentials
-              key: username
-        - name: DB_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: postgresql-credentials
-              key: password
-        - name: DB_HOST
-          value: my-postgresql-rw.kubesimplify-go.svc.cluster.local
-        - name: DB_PORT
-          value: "5432"
-        - name: DB_NAME
-          value: goals_database
-        ports:
-        - containerPort: 8080
-        readinessProbe:
-          httpGet:
-            path: /health
-            port: 8080
-          initialDelaySeconds: 5
-          periodSeconds: 10
-        livenessProbe:
-          httpGet:
-            path: /health
-            port: 8080
-          initialDelaySeconds: 15
-          periodSeconds: 20
-        # resources:
-        #   requests:
-        #     memory: "350Mi"
-        #     cpu: "250m"
-        #   limits:
-        #     memory: "500Mi"
-        #     cpu: "500m"
-# For t2.micro only        
-        resources:
-          requests:
-            memory: "150Mi"
-            cpu: "100m"
-          limits:
-            memory: "300Mi"
-            cpu: "200m"
+        - name: my-app
+          image: docker.io/kanukhosla10/go-kubesimplify:arm64
+          imagePullPolicy: Always
+          env:
+            - name: DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: postgresql-credentials
+                  key: username
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgresql-credentials
+                  key: password
+            - name: DB_HOST
+              value: my-postgresql-rw.kubesimplify-go.svc.cluster.local
+            - name: DB_PORT
+              value: "5432"
+            - name: DB_NAME
+              value: goals_database
+          ports:
+            - containerPort: 8080
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 15
+            periodSeconds: 20
+          resources:
+            requests:
+              memory: 350Mi
+              cpu: 250m
+            limits:
+              memory: 500Mi
+              cpu: 500m
+
