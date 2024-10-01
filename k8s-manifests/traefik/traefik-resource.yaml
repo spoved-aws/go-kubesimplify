@@ -18,7 +18,7 @@ spec:
           service:
             name: my-app-service
             port:
-              number: 80
+              number: 8088
   tls:
   - hosts:
     - go-ks.654537853.xyz
