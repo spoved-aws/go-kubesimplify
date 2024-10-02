@@ -10,7 +10,7 @@ spec:
     app: my-app
   ports:
     - protocol: TCP
-      name: http
+      name: http # this name is getting used in the service monitor
       port: 8088
       targetPort: 8080
   type: ClusterIP
