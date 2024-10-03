@@ -2,7 +2,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: argo-ks-traefik
-  namespace: kubesimplify-go
+  namespace: argocd # deployed in the same ns as the argo-server service
   annotations:
     traefik.ingress.kubernetes.io/router.entrypoints: websecure
     traefik.ingress.kubernetes.io/router.tls: "true"
@@ -16,7 +16,7 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: argocd-server.argocd.svc.cluster.local  # Fully qualified service name since argocd-server is in argocd ns
+            name: argocd-server  # Fully qualified service name does not work
             port:
               number: 80
   tls:
