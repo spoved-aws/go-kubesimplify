@@ -22,7 +22,7 @@ spec:
   tls:
   - hosts:
     - go-ks.654537853.xyz
-    secretName: letsencrypt-prod
+    secretName: go-ks-app-com-tls
 
 
 # apiVersion: networking.k8s.io/v1
