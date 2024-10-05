@@ -38,11 +38,13 @@ pipeline {
             }
         }
 
-        // stage('Build and Publish with ko') {
-        //     steps {
-        //         sh "ko build --bare -t sha-${env.sha_short} "
-        //     }
-        // }
+        stage('Build and Publish with ko') {
+            steps {
+                sh 'cd src'
+                sh "ko build --bare -t sha-${env.sha_short} ."
+                sh 'cd ..'
+            }
+        }
 
         // stage('Generate deploy manifest from Jinja template') {
         //     steps {
