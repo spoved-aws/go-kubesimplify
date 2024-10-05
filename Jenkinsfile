@@ -42,8 +42,10 @@ pipeline {
             steps {
                 sh 'cd src && ls'
                 sh 'pwd'
-                sh "ko build --bare -t sha-${env.sha_short} ."
+                sh "cd src/ && ko build --bare -t sha-${env.sha_short} ."
+                sh 'pwd'
                 sh 'cd ..'
+                sh 'pwd'
             }
         }
 
