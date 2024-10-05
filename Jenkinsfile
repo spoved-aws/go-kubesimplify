@@ -24,6 +24,8 @@ pipeline {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'dockerHubCredentials', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
                     sh 'echo $DOCKER_PASSWORD | ko login docker.io --username $DOCKER_USERNAME --password-stdin'
+                    sh 'pwd'
+                    sh 'ls'
                 }
             }
         }
@@ -38,7 +40,7 @@ pipeline {
 
         // stage('Build and Publish with ko') {
         //     steps {
-        //         sh "ko build --bare -t sha-${env.sha_short}"
+        //         sh "ko build --bare -t sha-${env.sha_short} "
         //     }
         // }
 
