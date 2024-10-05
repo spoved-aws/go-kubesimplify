@@ -40,7 +40,8 @@ pipeline {
 
         stage('Build and Publish with ko') {
             steps {
-                sh 'cd src'
+                sh 'cd src && ls'
+                sh 'pwd'
                 sh "ko build --bare -t sha-${env.sha_short} ."
                 sh 'cd ..'
             }
