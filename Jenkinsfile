@@ -38,16 +38,16 @@ pipeline {
             }
         }
 
-        stage('Build and Publish with ko') {
-            steps {
-                sh 'cd src && ls'
-                sh 'pwd'
-                sh "cd src/ && ko build --bare -t sha-${env.sha_short} ."
-                sh 'pwd'
-                sh 'cd ..'
-                sh 'pwd'
-            }
-        }
+        // stage('Build and Publish with ko') {
+        //     steps {
+        //         sh 'cd src && ls'
+        //         sh 'pwd'
+        //         sh "cd src/ && ko build --bare -t sha-${env.sha_short} ."
+        //         sh 'pwd'
+        //         sh 'cd ..'
+        //         sh 'pwd'
+        //     }
+        // }
 
         stage('Generate deploy manifest from Jinja template') {
             steps {
@@ -55,7 +55,7 @@ pipeline {
                   python3 -m venv venv
                   . venv/bin/activate
                   pip install jinja2-cli
-                  jinja2 k8s-manifests/tmpl/deploy.j2 -o k8s-manifests/deployments/deploy.yaml -D image_deploy_tag=sha-${env.sha_short} --strict
+                  jinja2 k8s-manifests/tmpl/deploy.j2 -o k8s-manifests/deployments/deploy.yaml -D image_deploy_tag=sha-${sha_short} --strict
                   cat k8s-manifests/deployments/deploy.yaml
                   deactivate
                 '''
