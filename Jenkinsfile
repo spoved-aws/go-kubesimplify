@@ -92,7 +92,7 @@ pipeline {
         stage('Commit deploy manifest on local repo') {
             steps {
                 sh '''
-                  git add k8s-manifests/deploy/deploy.yaml
+                  git add k8s-manifests/deployments/deploy.yaml
                   git commit -s -m "[skip ci] Generate deployment manifests"
                 '''
             }
