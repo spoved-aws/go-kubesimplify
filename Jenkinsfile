@@ -38,16 +38,16 @@ pipeline {
             }
         }
 
-        // stage('Build and Publish with ko') {
-        //     steps {
-        //         sh 'cd src && ls'
-        //         sh 'pwd'
-        //         sh "cd src/ && ko build --bare -t sha-${env.sha_short} ."
-        //         sh 'pwd'
-        //         sh 'cd ..'
-        //         sh 'pwd'
-        //     }
-        // }
+        stage('Build and Publish with ko') {
+            steps {
+                sh 'cd src && ls'
+                sh 'pwd'
+                sh "cd src/ && ko build --bare -t sha-${env.sha_short} ."
+                sh 'pwd'
+                sh 'cd ..'
+                sh 'pwd'
+            }
+        }
 
         stage('Generate deploy manifest from Jinja template') {
             steps {
@@ -62,50 +62,50 @@ pipeline {
             }
         }
 
-        // stage('Configure git for the action') {
-        //     steps {
-        //         sh '''
-        //           git config --local user.email "${GIT_COMMITTER_EMAIL}"
-        //           git config --local user.name "${GIT_COMMITTER_NAME}"
-        //         '''
-        //     }
-        // }
+        stage('Configure git for the action') {
+            steps {
+                sh '''
+                  git config --local user.email "${GIT_COMMITTER_EMAIL}"
+                  git config --local user.name "${GIT_COMMITTER_NAME}"
+                '''
+            }
+        }
 
-        // stage('Stash unstaged changes') {
-        //     steps {
-        //         sh 'git stash --include-untracked'
-        //     }
-        // }
+        stage('Stash unstaged changes') {
+            steps {
+                sh 'git stash --include-untracked'
+            }
+        }
 
-        // stage('Pull latest changes from the remote branch') {
-        //     steps {
-        //         sh 'git pull origin main --rebase'
-        //     }
-        // }
+        stage('Pull latest changes from the remote branch') {
+            steps {
+                sh 'git pull origin main --rebase'
+            }
+        }
 
-        // stage('Apply stashed changes') {
-        //     steps {
-        //         sh 'git stash pop || echo "No stashed changes to apply"'
-        //     }
-        // }
+        stage('Apply stashed changes') {
+            steps {
+                sh 'git stash pop || echo "No stashed changes to apply"'
+            }
+        }
 
-        // stage('Commit deploy manifest on local repo') {
-        //     steps {
-        //         sh '''
-        //           git add deploy/deploy.yaml
-        //           git commit -s -m "[skip ci] Generate deployment manifests"
-        //         '''
-        //     }
-        // }
+        stage('Commit deploy manifest on local repo') {
+            steps {
+                sh '''
+                  git add k8s-manifests/deploy/deploy.yaml
+                  git commit -s -m "[skip ci] Generate deployment manifests"
+                '''
+            }
+        }
 
-        // stage('Push deploy manifests to remote repo') {
-        //     steps {
-        //         withCredentials([string(credentialsId: 'githubToken', variable: 'GITHUB_TOKEN')]) {
-        //             sh '''
-        //               git push origin main
-        //             '''
-        //         }
-        //     }
-        // }
+        stage('Push deploy manifests to remote repo') {
+            steps {
+                withCredentials([string(credentialsId: 'githubToken', variable: 'GITHUB_TOKEN')]) {
+                    sh '''
+                      git push origin main
+                    '''
+                }
+            }
+        }
     }
 }
