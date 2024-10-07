@@ -102,6 +102,7 @@ pipeline {
             steps {
                 withCredentials([string(credentialsId: 'githubToken', variable: 'GITHUB_TOKEN')]) {
                     sh '''
+                      git remote set-url origin https://$GITHUB_TOKEN@github.com/spoved-aws/go-kubesimplify.git
                       git push origin main
                     '''
                 }
