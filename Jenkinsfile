@@ -49,17 +49,18 @@ pipeline {
             }
         }
 
-        // stage('Generate deploy manifest from Jinja template') {
-        //     steps {
-        //         sh '''
-        //           python3 -m venv venv
-        //           . venv/bin/activate
-        //           pip install jinja2-cli
-        //           jinja2 tmpl/deploy.j2 -o deploy/deploy.yaml -D image_deploy_tag=sha-${env.sha_short} --strict
-        //           deactivate
-        //         '''
-        //     }
-        // }
+        stage('Generate deploy manifest from Jinja template') {
+            steps {
+                sh '''
+                  python3 -m venv venv
+                  . venv/bin/activate
+                  pip install jinja2-cli
+                  jinja2 k8s-manifests/tmpl/deploy.j2 -o k8s-manifests/deployments/deploy.yaml -D image_deploy_tag=sha-${env.sha_short} --strict
+                  cat k8s-manifests/deployments/deploy.yaml
+                  deactivate
+                '''
+            }
+        }
 
         // stage('Configure git for the action') {
         //     steps {
