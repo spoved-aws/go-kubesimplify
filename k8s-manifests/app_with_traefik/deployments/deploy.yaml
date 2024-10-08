@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: my-app
-          image: docker.io/kanukhosla10/go-kubesimplify:sha-2205148
+          image: docker.io/kanukhosla10/go-kubesimplify:sha-5c5a6ab
           imagePullPolicy: Always
           env:
             - name: DB_USERNAME
