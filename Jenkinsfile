@@ -38,7 +38,7 @@ pipeline {
 
         stage('Build and Publish with ko') {
             steps {
-                sh "cd src/ && ko build --bare -t sha-${env.sha_short} ."
+                sh "cd src/ && ko build --bare -t sha-${env.sha_short} --platform=linux/arm64 ."
             }
         }
 
