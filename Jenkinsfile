@@ -49,7 +49,6 @@ pipeline {
                   . venv/bin/activate
                   pip install jinja2-cli
                   jinja2 k8s-manifests/tmpl/deploy.j2 -o k8s-manifests/app_with_traefik/deployments/deploy.yaml -D image_deploy_tag=sha-${sha_short} --strict
-                //   cat k8s-manifests/deployments/deploy.yaml
                   deactivate
                 '''
             }
