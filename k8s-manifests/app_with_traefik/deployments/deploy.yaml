@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: my-app
+  name: go-ks-app-arm64
   namespace: kubesimplify-go
   labels:
-    app: my-app
+    app: go-ks-app-arm64
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: my-app
+      app: go-ks-app-arm64
   template:
     metadata:
       labels:
-        app: my-app
+        app: go-ks-app-arm64
     spec:
       containers:
-        - name: my-app
+        - name: go-ks-app-arm64
           image: docker.io/kanukhosla10/go-kubesimplify:sha-5c5a6ab
           imagePullPolicy: Always
           env:

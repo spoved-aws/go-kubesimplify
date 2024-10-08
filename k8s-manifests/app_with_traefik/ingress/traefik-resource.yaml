@@ -16,7 +16,7 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: my-app-service
+            name: go-ks-app-arm64-service
             port:
               number: 8088
   tls:
