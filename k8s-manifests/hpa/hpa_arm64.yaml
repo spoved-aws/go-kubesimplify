@@ -2,12 +2,12 @@ apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
   name: go-ks-app-hpa
+  namespace: kubesimplify-go
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
     name: go-ks-app-arm64
-    namespace: kubesimplify-go
   minReplicas: 1
   maxReplicas: 10
   metrics:
