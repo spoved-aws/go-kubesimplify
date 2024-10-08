@@ -7,6 +7,7 @@ spec:
     apiVersion: apps/v1
     kind: Deployment
     name: go-ks-app-arm64
+    namespace: kubesimplify-go
   minReplicas: 1
   maxReplicas: 10
   metrics:
