@@ -24,8 +24,6 @@ pipeline {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'dockerHubCredentials', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
                     sh 'echo $DOCKER_PASSWORD | ko login docker.io --username $DOCKER_USERNAME --password-stdin'
-                    sh 'pwd'
-                    sh 'ls'
                 }
             }
         }
@@ -40,12 +38,7 @@ pipeline {
 
         stage('Build and Publish with ko') {
             steps {
-                sh 'cd src && ls'
-                sh 'pwd'
                 sh "cd src/ && ko build --bare -t sha-${env.sha_short} ."
-                sh 'pwd'
-                sh 'cd ..'
-                sh 'pwd'
             }
         }
 
@@ -55,8 +48,8 @@ pipeline {
                   python3 -m venv venv
                   . venv/bin/activate
                   pip install jinja2-cli
-                  jinja2 k8s-manifests/tmpl/deploy.j2 -o k8s-manifests/deployments/deploy.yaml -D image_deploy_tag=sha-${sha_short} --strict
-                  cat k8s-manifests/deployments/deploy.yaml
+                  jinja2 k8s-manifests/tmpl/deploy.j2 -o k8s-manifests/app_with_traefik/deployments/deploy.yaml -D image_deploy_tag=sha-${sha_short} --strict
+                //   cat k8s-manifests/deployments/deploy.yaml
                   deactivate
                 '''
             }
@@ -92,8 +85,8 @@ pipeline {
         stage('Commit deploy manifest on local repo') {
             steps {
                 sh '''
-                  git add k8s-manifests/deployments/deploy.yaml
-                  git commit -s -m "[skip ci] Generate deployment manifests"
+                  git add k8s-manifests/app_with_traefik/deployments/deploy.yaml
+                  git commit -s -m "Generate deployment manifests"
                 '''
             }
         }
