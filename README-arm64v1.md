@@ -6,23 +6,22 @@ This repo is for the video below
 # Running Locally in arm64 ubuntu 
 ## Initialising for base image
 ```
-bsf init  # skip this step, use alpine:3 base
+alpine:3 base
 ``` 
 ## Building OCI artifact using bsf and ko
 ```
-bsf oci pkgs --platform=linux/amd64 --tag=prod-v1 --push --dest-creds {Dockerhub username}:{dockerhub password}
-KO_DOCKER_REPO=saiyam911/devops-project KO_DEFAULTBASEIMAGE=saiyam911/devops-proj:base ko build --bare -t v1 . (change your image names here)
+KO_DOCKER_REPO=docker.io/kanukhosla10/go-kubesimplify KO_DEFAULTBASEIMAGE=alpine:3 ko build --bare -t v1 . (change your image names here)
 ```
 ## Running using Docker
-```
-docker run -d --name grafana -p 3000:3000 grafana/grafana
-docker run -d --name prometheus -p 9090:9090 -v $(pwd)/prometheus.yml:/etc/prometheus/prometheus.yml prom/prometheus
-docker run --name local-postgres -e POSTGRES_USER=myuser -e POSTGRES_PASSWORD=mypassword -e POSTGRES_DB=mydb -p 5432:5432 -d postgres
-docker exec -it local-postgres psql -U myuser -d mydb
+
+```docker run -d --name grafana -p 3000:3000 grafana/grafana```
+```docker run -d --name prometheus -p 9090:9090 -v $(pwd)/prometheus.yml:/etc/prometheus/prometheus.yml prom/prometheus```
+```docker run --name local-postgres -e POSTGRES_USER=myuser -e POSTGRES_PASSWORD=mypassword -e POSTGRES_DB=mydb -p 5432:5432 -d postgres```
+```docker exec -it local-postgres psql -U myuser -d mydb
 CREATE TABLE goals (
     id SERIAL PRIMARY KEY,
     goal_name TEXT NOT NULL
-);
+);```
 docker run -d \
   --platform=linux/amd64 \
   -p 8080:8080 \
@@ -32,8 +31,9 @@ docker run -d \
   -e DB_PORT=5432 \
   -e DB_NAME=mydb \
   -e SSL=disable \
- ttl.sh/devops-project-1a3a3957a5f042748486580be307ed8e@sha256:9ae320cdf05700210dd50ebefa6b3cd4a11ca2feaad1946f6715e0ec725bda62
-```
+ ttl.sh/
+ kanukhosla10/go-kubesimplify:arm64 
+
 
 ## Cluster creatiom 
 ```ksctl create-cluster azure --name=application --version=1.29```
