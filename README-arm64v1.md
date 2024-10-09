@@ -14,14 +14,23 @@ KO_DOCKER_REPO=docker.io/kanukhosla10/go-kubesimplify KO_DEFAULTBASEIMAGE=alpine
 ```
 ## Running using Docker
 
-```docker run -d --name grafana -p 3000:3000 grafana/grafana```
-```docker run -d --name prometheus -p 9090:9090 -v $(pwd)/prometheus.yml:/etc/prometheus/prometheus.yml prom/prometheus```
-```docker run --name local-postgres -e POSTGRES_USER=myuser -e POSTGRES_PASSWORD=mypassword -e POSTGRES_DB=mydb -p 5432:5432 -d postgres```
-```docker exec -it local-postgres psql -U myuser -d mydb
+```
+docker run -d --name grafana -p 3000:3000 grafana/grafana
+```
+```
+docker run -d --name prometheus -p 9090:9090 -v $(pwd)/prometheus.yml:/etc/prometheus/prometheus.yml prom/prometheus
+```
+```
+docker run --name local-postgres -e POSTGRES_USER=myuser -e POSTGRES_PASSWORD=mypassword -e POSTGRES_DB=mydb -p 5432:5432 -d postgres
+```
+```
+docker exec -it local-postgres psql -U myuser -d mydb
 CREATE TABLE goals (
     id SERIAL PRIMARY KEY,
     goal_name TEXT NOT NULL
-);```
+);
+```
+```
 docker run -d \
   --platform=linux/amd64 \
   -p 8080:8080 \
@@ -31,30 +40,17 @@ docker run -d \
   -e DB_PORT=5432 \
   -e DB_NAME=mydb \
   -e SSL=disable \
- ttl.sh/
- kanukhosla10/go-kubesimplify:arm64 
+ ttl.sh/devops-project-1a3a3957a5f042748486580be307ed8e@sha256:9ae320cdf05700210dd50ebefa6b3cd4a11ca2feaad1946f6715e0ec725bda62
+```
 
+## Cluster creation - KUBERNETES SETUP 
+k3s cluster on 1 node only - ubuntu arm64
 
-## Cluster creatiom 
-```ksctl create-cluster azure --name=application --version=1.29```
-
-## Switching the KubeConfig file 
-```ksctl switch-cluster --provider azure --region eastus --name devops-project```
-
-## Exporting Kubeconfig
-```export KUBECONFIG="/Users/saiyam/.ksctl/kubeconfig"```              
-
-## Installing basic componenets cert manager, nginx fabric for gateway API, Prometheus. for monitoring and Grafana for visualization. 
+## Installing basic componenets cert manager, traefix for ingress, Prometheus. for monitoring and Grafana for visualization. 
 ### Cert manager
 ```
 kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.15.3/cert-manager.yaml
 ```
-Edit cert-manager deployment 
-```
-- --enable-gateway-api
-```
-```kubectl rollout restart deployment cert-manager -n cert-manager```
-
 ### Install Kube prometheus stack
 ```
 helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
@@ -69,11 +65,12 @@ kubectl get secret --namespace monitoring kube-prometheus-stack-grafana -o jsonp
 kubectl port-forward svc/grafana 3000:80 -n monitoring
 ```
 
-## Install Nginx fabric gateway
+## Install Traefik ingress gateway for the app and argocd
 ```
-kubectl kustomize "https://github.com/nginxinc/nginx-gateway-fabric/config/crd/gateway-api/standard?ref=v1.3.0" | kubectl apply -f -
-helm install ngf oci://ghcr.io/nginxinc/charts/nginx-gateway-fabric --create-namespace -n nginx-gateway
+kubectl apply -f k8s-manifests/app_with_traefik/ingress/traefik-resource-argocd.yaml
+kubectl apply -f k8s-manifests/app_with_traefik/ingress/traefik-resource.yaml
 ```
+## Make entries in the DNS for the app and argocd
 
 
 ## Install Cloudnative postgress DB 
