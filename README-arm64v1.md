@@ -67,10 +67,12 @@ kubectl port-forward svc/grafana 3000:80 -n monitoring
 
 ## Install Traefik ingress gateway for the app and argocd
 ```
-kubectl apply -f k8s-manifests/app_with_traefik/ingress/traefik-resource-argocd.yaml
 kubectl apply -f k8s-manifests/app_with_traefik/ingress/traefik-resource.yaml
 ```
 ## Make entries in the DNS for the app and argocd
+<img width="1171" alt="image" src="https://github.com/user-attachments/assets/95f5eccc-c6e7-4233-9dc8-43574b2509c6">
+## Open NAT ports in the router to route the traffic to the IP of the VM
+<img width="972" alt="image" src="https://github.com/user-attachments/assets/96292d77-d64d-4504-9be4-f2d68baeb8ea">
 
 
 ## Install Cloudnative postgress DB 
@@ -85,7 +87,7 @@ metadata:
   name: my-postgresql
   namespace: default
 spec:
-  instances: 3
+  instances: 1
   storage:
     size: 1Gi
   bootstrap:
@@ -105,13 +107,14 @@ kubectl exec -it my-postgresql-1 -- psql -U postgres -c "ALTER USER goals_user W
 ### Creating Table inside the database
 ```
 kubectl port-forward my-postgresql-1 5432:5432
-PGPASSWORD='new_password' psql -h 127.0.0.1 -U goals_user -d goals_database -c "
-
-CREATE TABLE goals (
-    id SERIAL PRIMARY KEY,
-    goal_name VARCHAR(255) NOT NULL
-);
-"
+```
+## In a separate window -- SSH new session
+Make sure psql client is installed. 
+```
+sudo apt-get install -y postgresql-client
+```
+```
+PGPASSWORD='new_password' psql -h 127.0.0.1 -U goals_user -d goals_database -c "CREATE TABLE goals ( id SERIAL PRIMARY KEY, goal_name VARCHAR(255) NOT NULL);"
 ```
 
 ### Create secret to be used by the application 
@@ -131,7 +134,7 @@ EOF
 
 ### Application deployment(Currently this has the gateway for both Argocd and the application)
 ```
-kubectl apply -f deploy/deploy,yaml
+kubectl apply -f k8s-manifests/app_with_traefik/deployments/deploy.yaml
 ```
 
 ## Argocd installation 
@@ -143,12 +146,26 @@ kubectl rollout restart deployment argocd-server -n argocd
 kubectl get secret --namespace argocd argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 --decode ; echo 
 ```
 
-## Create Route for ArgoCD 
+## Create Ingress for ArgoCD 
 ```
-kubectl apply -f route-argo.yaml
-kubectl apply -f referencegrant
+kubectl apply -f k8s-manifests/app_with_traefik/ingress/traefik-resource-argocd.yaml
 ```
+ArgoCD doesn't open here and we get the error - ERR_TOO_MANY_REDIRECTS
+This might fix the issue - kubectl patch configmap argocd-cm -n argocd --patch '{"data":{"server.insecure":"true"}}' but I tried the below 
+
+https://github.com/argoproj/argo-cd/issues/2953
+
+k edit deploy argocd-server -n argocd
+<img width="610" alt="image" src="https://github.com/user-attachments/assets/aa0c1b8d-d134-4b34-a5d0-dadfed8a379f">
+
+## Deploy HPA
+```
+kubectl apply -f k8s-manifests/hpa/hpa_arm64.yaml
+```
+
+
 ## Load testing 
-```
-k6s run load.js
-```
+jmeter was used to perform load test
+<img width="762" alt="image" src="https://github.com/user-attachments/assets/1dc9b1fe-427a-4a1a-a7e0-1417959c89bd">
+
+
