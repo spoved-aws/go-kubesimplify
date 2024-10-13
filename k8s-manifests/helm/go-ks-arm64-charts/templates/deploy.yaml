@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "go-ks-arm64-charts.fullname" . }}-go-ks-app-arm64
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: go-ks-app-arm64
+  {{- include "go-ks-arm64-charts.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.goKsAppArm64.replicas }}
+  selector:
+    matchLabels:
+      app: go-ks-app-arm64
+    {{- include "go-ks-arm64-charts.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        app: go-ks-app-arm64
+      {{- include "go-ks-arm64-charts.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+      - env:
+        - name: DB_USERNAME
+          valueFrom:
+            secretKeyRef:
+              key: username
+              name: {{ include "go-ks-arm64-charts.fullname" . }}-postgresql-credentials
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: password
+              name: {{ include "go-ks-arm64-charts.fullname" . }}-postgresql-credentials
+        - name: DB_HOST
+          value: {{ quote .Values.goKsAppArm64.goKsAppArm64.env.dbHost }}
+        - name: DB_PORT
+          value: {{ quote .Values.goKsAppArm64.goKsAppArm64.env.dbPort }}
+        - name: DB_NAME
+          value: {{ quote .Values.goKsAppArm64.goKsAppArm64.env.dbName }}
+        - name: KUBERNETES_CLUSTER_DOMAIN
+          value: {{ quote .Values.kubernetesClusterDomain }}
+        image: {{ .Values.goKsAppArm64.goKsAppArm64.image.repository }}:{{ .Values.goKsAppArm64.goKsAppArm64.image.tag
+          | default .Chart.AppVersion }}
+        imagePullPolicy: {{ .Values.goKsAppArm64.goKsAppArm64.imagePullPolicy }}
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          initialDelaySeconds: 15
+          periodSeconds: 20
+        name: go-ks-app-arm64
+        ports:
+        - containerPort: 8080
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        resources: {{- toYaml .Values.goKsAppArm64.goKsAppArm64.resources | nindent 10
+          }}

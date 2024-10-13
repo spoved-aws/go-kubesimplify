@@ -1,0 +1,27 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ include "go-ks-arm64-charts.fullname" . }}-argo-ks-traefik
+  namespace: {{ .Values.namespace }}
+  labels:
+  {{- include "go-ks-arm64-charts.labels" . | nindent 4 }}
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    traefik.ingress.kubernetes.io/router.tls: "true"
+spec:
+  rules:
+  - host: argo-ks-helm.654537853.xyz
+    http:
+      paths:
+      - backend:
+          service:
+            name: argocd-server
+            port:
+              number: 80
+        path: /
+        pathType: Prefix
+  tls:
+  - hosts:
+    - argo-ks-helm.654537853.xyz
+    secretName: argo-ks-helm-com-tls

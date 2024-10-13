@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "go-ks-arm64-charts.fullname" . }}-go-ks-app-arm64-service
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: go-ks-app-arm64
+  {{- include "go-ks-arm64-charts.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.goKsAppArm64Service.type }}
+  selector:
+    app: go-ks-app-arm64
+  {{- include "go-ks-arm64-charts.selectorLabels" . | nindent 4 }}
+  ports:
+	{{- .Values.goKsAppArm64Service.ports | toYaml | nindent 2 }}

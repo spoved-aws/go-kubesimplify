@@ -1,0 +1,17 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: {{ include "go-ks-arm64-charts.fullname" . }}-my-postgresql
+  namespace: {{ .Values.namespace }}
+  labels:
+  {{- include "go-ks-arm64-charts.labels" . | nindent 4 }}
+spec:
+  bootstrap:
+    initdb:
+      database: goals_database
+      owner: goals_user
+      secret:
+        name: my-postgresql-credentials
+  instances: 2
+  storage:
+    size: 1Gi

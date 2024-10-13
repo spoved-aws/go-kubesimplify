@@ -1,0 +1,31 @@
+goKsAppArm64:
+  goKsAppArm64:
+    env:
+      dbHost: my-postgresql-rw.kubesimplify-go.svc.cluster.local
+      dbName: goals_database
+      dbPort: "5432"
+    image:
+      repository: docker.io/kanukhosla10/go-kubesimplify
+      tag: sha-5c5a6ab
+    imagePullPolicy: Always
+    resources:
+      limits:
+        cpu: 500m
+        memory: 500Mi
+      requests:
+        cpu: 250m
+        memory: 350Mi
+  replicas: 1
+goKsAppArm64Service:
+  ports:
+  - name: http
+    port: 8089
+    protocol: TCP
+    targetPort: 8080
+  type: ClusterIP
+kubernetesClusterDomain: cluster.local
+postgresqlCredentials:
+  password: bmV3X3Bhc3N3b3Jk
+  username: Z29hbHNfdXNlcg==
+
+namespace: helm-app
