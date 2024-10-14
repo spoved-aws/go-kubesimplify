@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ include "go-ks-arm64-charts.fullname" . }}-go-ks-app-arm64
-  namespace: {{ .Values.namespace }}
+  # namespace: {{ .Values.namespace }}
   labels:
     app: go-ks-app-arm64
   {{- include "go-ks-arm64-charts.labels" . | nindent 4 }}
