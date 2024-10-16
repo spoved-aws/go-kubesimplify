@@ -23,12 +23,12 @@ spec:
             - name: DB_USERNAME
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.secretName }}
+                  name: {{ .Values.postgresqlSecret.name }}
                   key: username
             - name: DB_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.secretName }}
+                  name: {{ .Values.postgresqlSecret.name }}
                   key: password
             - name: DB_HOST
               value: {{ .Values.db.host }}

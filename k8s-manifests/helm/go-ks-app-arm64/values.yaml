@@ -7,7 +7,7 @@ image:
 
 db:
   host: my-postgresql-rw
-  port: '5432'
+  port: 5432
   name: goals_database
 
 resources:
