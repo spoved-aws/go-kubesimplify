@@ -5,11 +5,6 @@ image:
   tag: sha-5c5a6ab
   pullPolicy: Always
 
-db:
-  host: my-postgresql-rw
-  port: 5432
-  name: goals_database
-
 resources:
   requests:
     memory: '350Mi'
@@ -68,6 +63,7 @@ postgresql:
   storageSize: '1Gi'
   database: goals_database
   owner: goals_user
+  port: 5432
   # secretName: {{ .Values.clusterSecret.name }}
 
 
