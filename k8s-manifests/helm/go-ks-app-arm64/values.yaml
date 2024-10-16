@@ -68,7 +68,7 @@ postgresql:
   # secretName: {{ .Values.clusterSecret.name }}
 
 
-postgresql-secret:
+postgresqlSecret:
   name: postgresql-credentials
   secretData:
     password: bmV3X3Bhc3N3b3Jk
