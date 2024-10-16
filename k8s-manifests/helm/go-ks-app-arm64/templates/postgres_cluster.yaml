@@ -1,7 +1,7 @@
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
-  name: {{ include "my-postgresql.fullname" . }}
+  name: {{ i.Values.postgresql.name }}
   # namespace: {{ .Values.namespace }}
 spec:
   instances: {{ .Values.postgresql.instances }}

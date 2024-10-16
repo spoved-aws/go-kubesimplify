@@ -5,12 +5,11 @@ image:
   tag: sha-5c5a6ab
   pullPolicy: Always
 
-secretName: postgresql-credentials
-# namespace: kubesimplify-go
-
-secretData:
-  password: bmV3X3Bhc3N3b3Jk
-  username: Z29hbHNfdXNlcg==
+postgresql-secret:
+  name: postgresql-credentials
+  secretData:
+    password: bmV3X3Bhc3N3b3Jk
+    username: Z29hbHNfdXNlcg==
 
 db:
   host: my-postgresql-rw
@@ -67,8 +66,15 @@ argocd:
   servicePort: 80
 
 postgresql:
-  instances: 2
+  name: goks-postgresql
+  instances: 1
   storageSize: '1Gi'
   database: goals_database
   owner: goals_user
-  secretName: my-postgresql-credentials
+  secretName: {{ .Values.clusterSecret.name }}
+
+clusterSecret:
+  name: my-postgresql-credentials
+  credentials:
+    username: goals_user
+    password: new_password
