@@ -33,6 +33,7 @@ livenessProbe:
   port: 8080
 
 autoscaling:
+  hpaName: go-ks1-app-hpa
   minReplicas: 1
   maxReplicas: 10
   cpu:

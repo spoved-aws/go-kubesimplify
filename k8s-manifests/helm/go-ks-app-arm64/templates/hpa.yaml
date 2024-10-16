@@ -1,7 +1,7 @@
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: {{ include "go-ks-app-arm64.hpaName" . }}
+  name: {{ .Values.autoscaling.hpaName }}
   # namespace: {{ .Values.namespace }}
 spec:
   scaleTargetRef:
