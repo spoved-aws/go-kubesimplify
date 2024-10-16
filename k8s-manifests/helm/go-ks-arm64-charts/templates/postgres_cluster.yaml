@@ -1,7 +1,7 @@
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
-  name: {{ include "go-ks-arm64-charts.fullname" . }}-my-postgresql
+  name: {{ include "go-ks-arm64-charts.fullname" . }}
   # namespace: {{ .Values.namespace }}
   labels:
   {{- include "go-ks-arm64-charts.labels" . | nindent 4 }}

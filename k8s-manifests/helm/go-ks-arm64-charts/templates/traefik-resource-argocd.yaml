@@ -1,7 +1,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: {{ include "go-ks-arm64-charts.fullname" . }}-argo-ks-traefik
+  name: {{ include "go-ks-arm64-charts.fullname" . }}
   # namespace: {{ .Values.namespace }}
   labels:
   {{- include "go-ks-arm64-charts.labels" . | nindent 4 }}

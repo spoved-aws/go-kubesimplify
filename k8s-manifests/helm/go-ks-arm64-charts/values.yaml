@@ -28,4 +28,5 @@ postgresqlCredentials:
   password: bmV3X3Bhc3N3b3Jk
   username: Z29hbHNfdXNlcg==
 
+
 namespace: helm-app

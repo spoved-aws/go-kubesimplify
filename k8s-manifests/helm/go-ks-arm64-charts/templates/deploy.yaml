@@ -24,12 +24,12 @@ spec:
           valueFrom:
             secretKeyRef:
               key: username
-              name: {{ include "go-ks-arm64-charts.fullname" . }}-postgresql-credentials
+              name: {{ include "go-ks-arm64-charts.fullname" . }}
         - name: DB_PASSWORD
           valueFrom:
             secretKeyRef:
               key: password
-              name: {{ include "go-ks-arm64-charts.fullname" . }}-postgresql-credentials
+              name: {{ include "go-ks-arm64-charts.fullname" . }}
         - name: DB_HOST
           value: {{ quote .Values.goKsAppArm64.goKsAppArm64.env.dbHost }}
         - name: DB_PORT
@@ -47,7 +47,7 @@ spec:
             port: 8080
           initialDelaySeconds: 15
           periodSeconds: 20
-        name: go-ks-app-arm64
+        name: {{ include "go-ks-arm64-charts.name" . }}
         ports:
         - containerPort: 8080
         readinessProbe:

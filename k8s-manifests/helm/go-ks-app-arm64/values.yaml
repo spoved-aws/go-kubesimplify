@@ -1,0 +1,72 @@
+replicaCount: 1
+
+image:
+  repository: docker.io/kanukhosla10/go-kubesimplify
+  tag: sha-5c5a6ab
+  pullPolicy: Always
+
+secretName: postgresql-credentials
+# namespace: kubesimplify-go
+
+secretData:
+  password: bmV3X3Bhc3N3b3Jk
+  username: Z29hbHNfdXNlcg==
+
+db:
+  host: my-postgresql-rw.kubesimplify-go.svc.cluster.local
+  port: '5432'
+  name: goals_database
+
+resources:
+  requests:
+    memory: '350Mi'
+    cpu: '250m'
+  limits:
+    memory: '500Mi'
+    cpu: '500m'
+
+probes:
+  readiness:
+    initialDelaySeconds: 5
+    periodSeconds: 10
+  liveness:
+    initialDelaySeconds: 15
+    periodSeconds: 20
+
+containerPort: 8080
+readinessProbe:
+  port: 8080
+livenessProbe:
+  port: 8080
+
+autoscaling:
+  minReplicas: 1
+  maxReplicas: 10
+  cpu:
+    averageUtilization: 20
+  memory:
+    averageValue: '350Mi'
+
+service:
+  portName: http
+  port: 8089
+  type: ClusterIP
+
+ingress:
+  entrypoints: websecure
+  tlsEnabled: "true"
+  clusterIssuer: letsencrypt-prod
+  host: argo-ks.654537853.xyz
+  secretName: argo-kubesimplify-com-tls
+
+argocd:
+  namespace: argocd
+  serviceName: argocd-server
+  servicePort: 80
+
+postgresql:
+  instances: 2
+  storageSize: '1Gi'
+  database: goals_database
+  owner: goals_user
+  secretName: my-postgresql-credentials
