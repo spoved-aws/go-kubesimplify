@@ -74,8 +74,8 @@ postgresql:
 postgresqlSecret:
   name: postgresql-credentials
   secretData:
-    password: bmV3X3Bhc3N3b3Jk
-    username: Z29hbHNfdXNlcg==
+    password: new_password
+    username: goals_user
 
 # Secret for Postgres Cluster
 clusterSecret:
