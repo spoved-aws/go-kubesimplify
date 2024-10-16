@@ -13,7 +13,7 @@ secretData:
   username: Z29hbHNfdXNlcg==
 
 db:
-  host: my-postgresql-rw.kubesimplify-go.svc.cluster.local
+  host: my-postgresql-rw
   port: '5432'
   name: goals_database
 
@@ -56,8 +56,10 @@ ingress:
   entrypoints: websecure
   tlsEnabled: "true"
   clusterIssuer: letsencrypt-prod
-  host: argo-ks.654537853.xyz
-  secretName: argo-kubesimplify-com-tls
+  appHost: go-ks1.654537853.xyz
+  appSecretName: go-ks1-app-com-tls
+  argoHost: argo-ks1.654537853.xyz
+  argoSecretName: argo-ks-com-tls
 
 argocd:
   namespace: argocd
