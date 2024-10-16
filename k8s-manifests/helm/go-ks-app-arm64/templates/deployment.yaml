@@ -31,11 +31,11 @@ spec:
                   name: {{ .Values.postgresqlSecret.name }}
                   key: password
             - name: DB_HOST
-              value: {{ .Values.db.host }}
+              value: "{{ .Values.db.host }}"
             - name: DB_PORT
-              value: {{ .Values.db.port }}
+              value: "{{ .Values.db.port }}"
             - name: DB_NAME
-              value: {{ .Values.db.name }}
+              value: "{{ .Values.db.name }}"
           ports:
             - containerPort: {{ .Values.containerPort }}
           readinessProbe:
