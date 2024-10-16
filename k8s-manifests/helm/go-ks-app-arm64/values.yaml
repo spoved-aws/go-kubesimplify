@@ -5,12 +5,6 @@ image:
   tag: sha-5c5a6ab
   pullPolicy: Always
 
-postgresql-secret:
-  name: postgresql-credentials
-  secretData:
-    password: bmV3X3Bhc3N3b3Jk
-    username: Z29hbHNfdXNlcg==
-
 db:
   host: my-postgresql-rw
   port: '5432'
@@ -73,6 +67,14 @@ postgresql:
   owner: goals_user
   # secretName: {{ .Values.clusterSecret.name }}
 
+
+postgresql-secret:
+  name: postgresql-credentials
+  secretData:
+    password: bmV3X3Bhc3N3b3Jk
+    username: Z29hbHNfdXNlcg==
+
+# Secret for Postgres Cluster
 clusterSecret:
   name: my-postgresql-credentials
   credentials:
