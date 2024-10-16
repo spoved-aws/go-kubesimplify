@@ -71,7 +71,7 @@ postgresql:
   storageSize: '1Gi'
   database: goals_database
   owner: goals_user
-  secretName: {{ .Values.clusterSecret.name }}
+  # secretName: {{ .Values.clusterSecret.name }}
 
 clusterSecret:
   name: my-postgresql-credentials
