@@ -41,6 +41,7 @@ autoscaling:
     averageValue: '350Mi'
 
 service:
+  name: go-ks1-app-arm64-service
   portName: http
   port: 8089
   type: ClusterIP
@@ -49,6 +50,7 @@ ingress:
   entrypoints: websecure
   tlsEnabled: "true"
   clusterIssuer: letsencrypt-prod
+  ingresssApp: go-ks1-traefik
   appHost: go-ks1.654537853.xyz
   appSecretName: go-ks1-app-com-tls
   argoHost: argo-ks1.654537853.xyz

@@ -1,7 +1,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: {{ include "go-ks-app-arm64.ingressName" . }}
+  name: {{ .Values.ingress.ingresssApp }}
   # namespace: {{ .Values.namespace }}
   annotations:
     traefik.ingress.kubernetes.io/router.entrypoints: {{ .Values.ingress.entrypoints }}
@@ -16,7 +16,7 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: {{ include "go-ks-app-arm64.serviceName" . }}
+                name: {{ .Values.service.name }}
                 port:
                   number: {{ .Values.service.port }}
   tls:
